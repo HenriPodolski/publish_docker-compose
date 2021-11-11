@@ -6,7 +6,7 @@ echo "VERSION=$VERSION"
 echo "DOCKER_COMPOSE=$DOCKER_COMPOSE"
 
 # login to github
-docker login docker.pkg.github.com -u ${GITHUB_REF} -p ${REPO_TOKEN}
+docker login ghcr.io -u ${GITHUB_REF} -p ${REPO_TOKEN}
 
 # build and run the docker images
 VERSION=$VERSION docker-compose -f $DOCKER_COMPOSE up --no-start
