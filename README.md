@@ -12,6 +12,13 @@ Each dockerfile target must have a `LABEL name="<name>`. This is used to name th
 
 If version is blank (recommended), the release tag version is used.
 
+### Includes New Features and Fixes 
+Fork from https://github.com/pennsignals/publish_docker-compose with some additions:
+
+Uses ghcr.io (GitHub container registry instead of deprecated docker hub docker.pkg.github.com)
+
+Github usernames with uppercase letters won't break the action anymore
+
 ## Example Usage
 ```
     - name: publish
