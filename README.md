@@ -22,7 +22,7 @@ Github usernames with uppercase letters won't break the action anymore
 ## Example Usage
 ```
     - name: publish
-      uses: pennsignals/publish_docker-compose@v0.1.0
+      uses: henripodolski/publish_docker-compose-2-ghcr.io@v0.2.1
       with:
         version: '0.2.6-rc.1' # optional
         docker_compose: 'docker-compose.build.yml' # required
