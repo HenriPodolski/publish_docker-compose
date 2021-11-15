@@ -19,6 +19,8 @@ Uses ghcr.io (GitHub container registry instead of deprecated docker hub docker.
 
 Github usernames with uppercase letters won't break the action anymore
 
+Alternative .env file can be passed via env_file variable
+
 ## Example Usage
 ```
     - name: publish
@@ -27,6 +29,7 @@ Github usernames with uppercase letters won't break the action anymore
         version: '0.2.6-rc.1' # optional
         docker_compose: 'docker-compose.build.yml' # required
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        env_file: ".env.prod"
 ```
 
 ## Input
@@ -45,6 +48,10 @@ docker-compose file to use
 ### `repo_token`
 
 repository token: ${{ secrets.GITHUB_TOKEN }}
+
+### `env_file`
+
+env file name to be used (optional)
 
 ## Docker-compose file
 ```
