@@ -1,6 +1,7 @@
 VERSION="$1"
 DOCKER_COMPOSE="$2"
 REPO_TOKEN="$3"
+ENV_FILE="$4"
 
 echo "VERSION=$VERSION"
 echo "DOCKER_COMPOSE=$DOCKER_COMPOSE"
@@ -9,10 +10,10 @@ echo "DOCKER_COMPOSE=$DOCKER_COMPOSE"
 docker login ghcr.io -u ${GITHUB_REF} -p ${REPO_TOKEN}
 
 # build and run the docker images
-VERSION=$VERSION docker-compose -f $DOCKER_COMPOSE up --no-start
+VERSION=$VERSION docker-compose -f $DOCKER_COMPOSE --env-file $ENV_FILE up --no-start
 
 # get all built IDs
-IMAGE_IDs=$(docker-compose -f $DOCKER_COMPOSE images -q)
+IMAGE_IDs=$(docker-compose -f $DOCKER_COMPOSE --env-file $ENV_FILE images -q)
 
 echo "IMAGE_IDs: $IMAGE_IDs"
 
