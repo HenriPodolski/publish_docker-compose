@@ -17,6 +17,10 @@ inputs:
     description: "Github Repo token"
     required: false
     default: ''
+  env_file:
+    description: "Alternative .env file (e.g. .env.prod)"
+    required: false
+    default: ''
 outputs:
   tag:
     description: "Tag that was published"
