@@ -1,31 +1,23 @@
 VERSION="$1"
-DOCKER_COMPOSE="$2"
+OVERRIDE="$2"
 REPO_TOKEN="$3"
 ENV_FILE="$4"
 
 echo "VERSION=$VERSION"
-echo "DOCKER_COMPOSE=$DOCKER_COMPOSE"
+echo "OVERRIDE=$OVERRIDE"
 
-# login to github
 docker login ghcr.io -u ${GITHUB_REF} -p ${REPO_TOKEN}
 
-# build and run the docker images
-VERSION=$VERSION docker-compose -f $DOCKER_COMPOSE --env-file $ENV_FILE up --no-start
+VERSION=$VERSION docker-compose -f docker-compose.yml -f $OVERRIDE --env-file $ENV_FILE up --no-start --remove-orphans
+IMAGES=$(docker inspect --format='{{.Image}}' $(docker ps -aq))
 
-# get all built IDs
-IMAGE_IDs=$(docker-compose -f $DOCKER_COMPOSE --env-file $ENV_FILE images -q)
+echo "IMAGES: $IMAGES"
+for IMAGE in $IMAGES; do
+    echo "IMAGE: $IMAGE"
+    
+    NAME=$(basename ${GITHUB_REPOSITORY}).$(docker inspect --format '{{ index .Config.Labels "name" }}' $IMAGE)
+    TAG="ghcr.io/${GITHUB_REPOSITORY}/$NAME:$VERSION"
 
-echo "IMAGE_IDs: $IMAGE_IDs"
-
-while read -r IMAGE_ID; do
-
-    echo "IMAGE_ID: $IMAGE_ID"
-    # get the name label
-    NAME=$(basename ${GITHUB_REPOSITORY})-$(docker inspect --format '{{ index .Config.Labels.name }}' $IMAGE_ID)
-    PUSH="ghcr.io/${GITHUB_REPOSITORY,,}/${NAME,,}:${VERSION}"
-
-    # tag and push
-    docker tag $IMAGE_ID $PUSH
-    docker push $PUSH
-
-done <<< "$IMAGE_IDs"
+    docker tag $IMAGE $TAG
+    docker push $TAG
+done
