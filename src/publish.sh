@@ -8,7 +8,7 @@ echo "OVERRIDE=$OVERRIDE"
 
 docker login ghcr.io -u ${GITHUB_REF} -p ${REPO_TOKEN}
 
-VERSION=$VERSION docker-compose -f $OVERRIDE --env-file $ENV_FILE up --no-start --force-recreate --remove-orphans
+VERSION=$VERSION docker-compose -f $OVERRIDE --env-file $ENV_FILE up --no-start --remove-orphans
 IMAGES=$(docker-compose -f $OVERRIDE --env-file $ENV_FILE images -q)
 
 echo ".env file:"
