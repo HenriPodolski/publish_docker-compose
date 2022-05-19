@@ -19,7 +19,7 @@ inputs:
     default: ''
   env_file:
     description: "Alternative .env file (e.g. .env.prod)"
-    required: false
+    required: true
     default: ''
 outputs:
   tag:
