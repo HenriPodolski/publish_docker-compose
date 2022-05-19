@@ -11,6 +11,8 @@ docker login ghcr.io -u ${GITHUB_REF} -p ${REPO_TOKEN}
 docker-compose -f docker-compose.yml -f $OVERRIDE --env-file $ENV_FILE up --no-start --remove-orphans
 IMAGES=$(docker inspect --format='{{.Image}}' $(docker ps -aq))
 
+echo ".env file:"
+cat .env
 echo "IMAGES: $IMAGES"
 for IMAGE in $IMAGES; do
     echo "IMAGE: $IMAGE"
